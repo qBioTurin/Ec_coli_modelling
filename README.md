@@ -1,5 +1,5 @@
 # _Escherichia coli_ (str. K12) growing on different carbon sources (lactose and D-glucose)
-![Flyer](https://github.com/qBioTurin/Ec_coli_modelling/Input/notes/4Md/Flyer_Sum_G-L_model.png)
+![Flyer](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/notes/4Md/Flyer_Sum_G-L_model.png)
 
 ## Petri Net-based model of bacteria growing with different combinations of carbon sources
 **Epimod** [[1](#references)] is the first analysis tool that can integrate chemical reaction networks analysis and Petri Net based dynamical models (based on Ordinary Differential Equations) into a general modeling framework. In this repository a working example where the framework's ability to simulate multi-state systems is introduced. We performed this analysis showing the effect of glucose and lactose concentrations on the metabolic response of _E. coli_. This can readily identify different metabolic behaviours depending on environmental status providing transaltion of quantitative values into discrete intervals and allowing flux analyses. Flux Balance Analysis (FBA) become an established constraint-based method approach to study metabolic networks. However, to model of finer-grained biological detail and of systems up perturbations, mechanism-based modeling approaches are the best option.  By the way, this method is not only based on the steady-state analysis of the metabolic network, but also on the dynamics of external metabolites concentration over time given and initial state. The so implemented time-dependent analyis is based on a input metabolic network. At each time, the values of external metabolites concentrations are updated by solving ODEs and values are then transalted into constraints for FBA. In turn, flux analòysis solution can be upcycled as kinetic parameters for the ODEs.
@@ -11,21 +11,21 @@ The model describes metabolism for _E. coli_ str. K-12 MG1655. Culture condition
 
 Following scenarios of carbon sources culture administration are simulated:
 
-  * [AlternedPulses](https://github.com/qBioTurin/Ec_coli_modelling/Input/csv/AlternedPulses.csv)
-  * [PairedPulses](https://github.com/qBioTurin/Ec_coli_modelling/Input/csv/PairedPulses.csv)
-  * [StepwisePulses](https://github.com/qBioTurin/Ec_coli_modelling/Input/csv/StepwisePulses.csv)
+  * [AlternedPulses](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/csv/AlternedPulses.csv)
+  * [PairedPulses](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/csv/PairedPulses.csv)
+  * [StepwisePulses](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/csv/StepwisePulses.csv)
 
 To simulate the experiments, a standard application **epimod** protocols are implemented within containerized environments.
 
 * Model parametrization can be made by modifing the values of the selected parameters. Sets of parameters can be imported into a textual file in which the parameters to be studied are listed associated with their range of variability. Example of such a file is provided as “**CarbonAdmin.csv**”. The file includes a sheet that is utilized either to manage parameters deposited into additional sets or to recall methods of paramterization.
 
-* Simulations can be performed in the R environemnt. The script file “**Main.R**” shows how to simulate the above mentioned protocols from a single generic simulation file. Also, the scripts generate images comparing simulation results given differnt conditions dataset as in “**CarbonSourcesUtilization.pdf**”. Metabolic model used is a plain test file provided as “**FBAmodelK12**” is located in the folder [CompiledModels](https://github.com/qBioTurin/Ec_coli_modelling/Input/CompiledModels). This file was obtained by compilation of the corresponding S4 object of the class modelorg provided as “**Ec_K12Diet.RData**”) located in the folder [K12](https://github.com/qBioTurin/Ec_coli_modelling/Input/Models/K12). 
+* Simulations can be performed in the R environemnt. The script file “**Main.R**” shows how to simulate the above mentioned protocols from a single generic simulation file. Also, the scripts generate images comparing simulation results given differnt conditions dataset as in “**CarbonSourcesUtilization.pdf**”. Metabolic model used is a plain test file provided as “**FBAmodelK12**” is located in the folder [CompiledModels](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/CompiledModels). This file was obtained by compilation of the corresponding S4 object of the class modelorg provided as “**Ec_K12Diet.RData**”) located in the folder [K12](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/Models/K12). 
 
-* The script applies the parameter values defined in the folder [csv](https://github.com/qBioTurin/Ec_coli_modelling/Input/csv). By changing values in csv file (or addressing alternative files), new parameter sets can be run out without altering the model itself. Petri Net model definition is provided by two file located in the folder [Net](https://github.com/qBioTurin/Ec_coli_modelling/Input/Models/Net). The file “**Ec_corePN.PNPRO**” stores the Petri Net model. File “**transitions.cpp**” is a C++ file defining the functions managing the behaviour Petri Net general transition.
+* The script applies the parameter values defined in the folder [csv](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/csv). By changing values in csv file (or addressing alternative files), new parameter sets can be run out without altering the model itself. Petri Net model definition is provided by two file located in the folder [Net](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/Models/Net). The file “**Ec_corePN.PNPRO**” stores the Petri Net model. File “**transitions.cpp**” is a C++ file defining the functions managing the behaviour Petri Net general transition.
 
 The sample images generated are the following:
 
-![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/Results/CarbonSourcesUtilization.pdf)
+![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.pdf)
 
 
 ## References
