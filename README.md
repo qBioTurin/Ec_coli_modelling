@@ -23,9 +23,6 @@ To simulate the experiments, standard application **epimod** protocols are imple
 
 * The script applies the parameter values defined in the folder [csv](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/csv). By changing values in the CSV file (or addressing alternative files), new parameter sets can be run out without altering the model itself. Petri Net model definition is provided by two files located in the folder [Net](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Input/Models/Net). The file “**Ec_corePN.PNPRO**” stores the Petri Net model. File “**transitions.cpp**” is a C++ file defining the functions managing the behaviour of Petri Net's general transition.
 
-The sample images generated are the following:
-
-![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.png)
 
 ## Harmonization of metabolic network and dynamic model
 
@@ -41,6 +38,14 @@ scaricare dal sito il file matlab, usare le funzioni R che offriamo (to do) per 
 
 ### How to do the FVA
 (TO DO)
+
+### Simulation 
+
+The sample images generated are the following:
+
+![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.png)
+
+MANCA UNA DESCRIZIONE
 ## References
 [1] (https://github.com/qBioTurin/epimod)
 
