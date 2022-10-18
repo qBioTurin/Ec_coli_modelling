@@ -25,7 +25,7 @@ To simulate the experiments, standard application **epimod** protocols are imple
 
 The sample images generated are the following:
 
-![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.pdf)
+![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.png)
 
 ## Harmonization of metabolic network and dynamic model
 
