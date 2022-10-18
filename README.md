@@ -27,7 +27,20 @@ The sample images generated are the following:
 
 ![ModelSim](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/Results/CarbonSourcesUtilization.pdf)
 
+## Harmonization of metabolic network and dynamic model
 
+scaricare dal sito il file matlab, usare le funzioni R che offriamo (to do) per generare 
+
+### Download and generate the file to pass to GreatMod
+
+### Net description (transitions etc)
+
+## Model Analysis
+
+### How to read the trace and fluxes generated
+
+### How to do the FVA
+(TO DO)
 ## References
 [1] (https://github.com/qBioTurin/epimod)
 

@@ -26,7 +26,7 @@ setwd("~/Documents/ClostridiumDiff_FBAandPN/Ec_coli_modelling")
 # Ub = 10
 
 ################################################################################
-########################### epimod Model Generation ############################
+########################### GreatMod Model Generation ############################
 ################################################################################
 
 model.generation(net_fname = "./Net/Ec_corePN.PNPRO",
@@ -36,7 +36,7 @@ model.generation(net_fname = "./Net/Ec_corePN.PNPRO",
 system("mv Ec_corePN.* ./Net")
 
 ################################################################################
-############################ epimod Model Analysis #############################
+############################ GreatMod Model Analysis #############################
 ################################################################################
 
 model.analysis(solver_fname = "./Net/Ec_corePN.solver",
