@@ -1,2 +1,0 @@
-i; init; init.gen; iG = 0; iL = 0;
-g; M; MatrixGeneration; frame="/home/docker/data/Input/csv/AlternedPulses.csv";

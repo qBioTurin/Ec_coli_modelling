@@ -1,7 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=MATLAB
-Exec=/usr/local/MATLAB/R2021a/bin/./matlab
-Icon=/usr/local/MATLAB/R2021a/resources/coreui/matlab/splash.png
-Terminal=false
