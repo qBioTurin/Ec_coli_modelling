@@ -1,4 +1,5 @@
 # Using _UnifiedGreatMod_ to integrate transcriptional data onto _Escherichia coli_ genome-scale metabolic model (iML1515) growing on different regime of carbon feeding
+
 ![flyer](https://github.com/qBioTurin/Ec_coli_modelling/blob/main/4md/Flyer_Sum_G-L_model.png)
 
 ## Petri Net-based model of _E. coli_ strain K-12 growing with different combinations of carbon sources
@@ -24,20 +25,20 @@ The model describes metabolism for _E. coli_ str. K-12. Cultural conditions are 
 
 The following carbon source supplementation scenarios for a fed-batch were simulated:
 
-* [Constant_feeding](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results/Constant_feeding_Model_Analysis):
+* _Constant_feeding_:
 The feed rate of glucose and lactose is constant throughout the culture.
-* [Linear_feeding](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results/Linear_feeding_Model_Analysis):
+* _Linear_feeding_:
 The feed rate of glucose and lactose are increased linearly over time to match the growth rate of the cells
-* [Pulsed_feeding_60](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results/Pulsed_feeding_150_Model_Analysis): Glucose and lactose are added in repeated cycles of short duration, followed by a period of no feeding; the same total amount of glucose was fed in repeated 300s (5 min) cycles for 60s
-* [Pulsed_feeding_150](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results/Pulsed_feeding_150_Model_Analysis): Glucose and lactose are added in repeated cycles of short duration, followed by a period of no feeding; the same total amount of glucose was fed in repeated 300s (5 min) cycles for 150s
-* [blank](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results//blank_Model_Analysis):
+* _Pulsed_feeding_60_: Glucose and lactose are added in repeated cycles of short duration, followed by a period of no feeding; the same total amount of glucose was fed in repeated 300s (5 min) cycles for 60s
+* _Pulsed_feeding_150_: Glucose and lactose are added in repeated cycles of short duration, followed by a period of no feeding; the same total amount of glucose was fed in repeated 300s (5 min) cycles for 150s
+* _blank_:
 The culture does not have glucose and lactose added to it.
 
 The model was parameterized by adjusting the values of selected parameters. These sets of parameters were imported from a text file, where each parameter is listed and associated with its range of variability. An example of such a file is provided, named **CarbonAdmin.csv**. This file contains a sheet that can be used either to manage parameters stored in additional sets or to invoke parameterization methods.
 
 Simulations were performed in the R environment. The script file **main.R** shows how to perform simulations from a single generic simulation file. Also, the scripts generate visualizations comparing simulation results given different conditions dataset as in [ [plots](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/results/plots) ]. The metabolic model used is a plain text file provided as **iML1515.txt** is located in the folder [ [compiled_models](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/input/compiled_models) ]. This file was obtained by compilation of the corresponding S4 object provided as **iML1515.RData** located in the folder [ [iML1515](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/input/models/ecoli/iML1515) ].
 
-The script applies the parameter values defined in the folder [carbon_regimes](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/input/csv/carbon_regimes). By changing values in the CSV file (or addressing alternative files), new parameter sets can be run out without altering the model itself. Petri Net model definition is provided by two files located in the folder [ [net](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/net) ]. The file **iML1515_PN.PNPRO** stores the Petri Net model. File **transitions.cpp** is a C++ file defining the functions managing the behaviour of Petri Net's general transition.
+The script applies the parameter values defined in the folder [ [carbon_regimes](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/input/csv/carbon_regimes) ]. By changing values in the CSV file (or addressing alternative files), new parameter sets can be run out without altering the model itself. Petri Net model definition is provided by two files located in the folder [ [net](https://github.com/qBioTurin/Ec_coli_modelling/tree/main/net) ]. The file **iML1515_PN.PNPRO** stores the Petri Net model. File **transitions.cpp** is a C++ file defining the functions managing the behaviour of Petri Net's general transition.
 
 To simulate the experiments, standard application **Epimod** protocols are implemented within containerized environments.
 
@@ -182,20 +183,20 @@ To convert 1g/L of glucose to mmol/L, we need to know the molar mass of glucose:
 From [ [9](#references) ] MOPS minimal medium as defined by (_Bergholz et al, 2007_) and rescale by the batch volume considered: 
 <br />
 
-| compound | amount_mM | amount_batch | bigg_id | exchanges
-| :--- | :----: | :----: | | :----: | ---: |    
-| D-Glucose | 5.55 | 18.5 | glc_D_e | EX_glc_D_e  
-| Magnesium chloride | 0.523 | 3.48 | mg2_e | EX_mg2_e    
-| Calcium chloride anhydrous | 0.001 | 0.00167 | ca2_e | EX_ca2_e    
-| Potassium sulfate | 0.276 | 1.84 | k_e | EX_k_e      
-| Sodium chloride | 50 | 334 | na1_e | EX_na1_e    
-| Ammonium chloride | 9.52 | 63.4 | nh4_e | EX_nh4_e    
-| Ferrous sulfate | 0.01 | 0.0666 | fe3_e | EX_fe3_e    
-| Cobalt chloride | 0.00006 | 0.0004 | cobalt2_e | EX_cobalt2_e
-| Zinc sulfate | 0.0002 | 0.001334 | zn2_e | EX_zn2_e    
-| Manganese chloride | 0.0016 | 0.01066 | mn2_e | EX_mn2_e    
-| Cupric sulfate | 0.0002 | 0.001334 | cu2_e | EX_cu2_e    
-| Molybdic acid ammonium salt tetrahydrate | 0.00006 | 0.0004 | mobd_e | EX_mobd_e   
+| compound | amount_mM | amount_batch | bigg_id | exchanges |
+| :--- | :----: | :----: | :----: | ---: |    
+| D-Glucose | 5.55 | 18.5 | glc_D_e | EX_glc_D_e  |
+| Magnesium chloride | 0.523 | 3.48 | mg2_e | EX_mg2_e    |
+| Calcium chloride anhydrous | 0.001 | 0.00167 | ca2_e | EX_ca2_e    |
+| Potassium sulfate | 0.276 | 1.84 | k_e | EX_k_e      |
+| Sodium chloride | 50 | 334 | na1_e | EX_na1_e    |
+| Ammonium chloride | 9.52 | 63.4 | nh4_e | EX_nh4_e    |
+| Ferrous sulfate | 0.01 | 0.0666 | fe3_e | EX_fe3_e  |  
+| Cobalt chloride | 0.00006 | 0.0004 | cobalt2_e | EX_cobalt2_e |
+| Zinc sulfate | 0.0002 | 0.001334 | zn2_e | EX_zn2_e    |
+| Manganese chloride | 0.0016 | 0.01066 | mn2_e | EX_mn2_e    |
+| Cupric sulfate | 0.0002 | 0.001334 | cu2_e | EX_cu2_e  |  
+| Molybdic acid ammonium salt tetrahydrate | 0.00006 | 0.0004 | mobd_e | EX_mobd_e   |
 
 **Altenative constainting strategies**
 
