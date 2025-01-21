@@ -1,3 +1,0 @@
-i; init; init.gen; iG = 37.00414446418; iL = 0;
-g; M; MatrixGeneration; frame='/home/docker/data/input/csv/carbon_regimes/Pulsed_feeding_60.csv';
-g; eps; 1e-2
