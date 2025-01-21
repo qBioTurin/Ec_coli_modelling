@@ -17,6 +17,9 @@ using namespace FBGLPK;
 static double* Vars; // Pointer to an array of doubles
 static double FBAtime = -1;
 static double Flag = -1;
+static bool FlagPrev = 0;
+// error difference variation FBAplaces
+double eps = 1e-06;
 
 double rate = 0;
 
@@ -24,6 +27,7 @@ static map <string, string> FBAreact; // Map that stores key-value pairs of stri
 static map <string, string> FBAplace; // Map that stores key-value pairs of strings
 
 static vector<vector<double>*> M; // 2D vector of pointers to doubles
+static map <string, double> ValuePrev{{"glc_e", -1}, {"lcts_e", -1}};
 
 static bool init = false; // Boolean variable initialized to false
 
@@ -204,6 +208,7 @@ double trunc(double value, double decimal) {
 // data strucure inizialization
 void init_data_structures(const struct InfTr* Trans, map <string,int>& NumTrans)  {
   
+  read_constant("./eps", eps);
   read_vector_vector("./M", M);
   Msize = M.size();
   
@@ -233,11 +238,46 @@ double FBA(double *Value,
   
   if(Flag == -1) init_data_structures(Trans, NumTrans);
   
+  if (ValuePrev["glc_e"] != -1) {
+    FlagPrev = 1;
+  } else {
+    FBAmarking = 1;
+  }
+  
+  if (FlagPrev) {
+    
+    // cout << "err evaluating ..." << endl;
+    
+    map <string, double>::iterator p = ValuePrev.begin();
+    
+    while(p != ValuePrev.end() && !FBAmarking) {
+      
+      double MPrev = p -> second;
+      double M = trunc(Value[NumPlaces.find(p -> first) -> second], decimalTrunc );
+      
+      double err = 0;
+      
+      if (MPrev == 0.0) {
+        err = abs(M - MPrev);
+      } else {
+        err = (abs(M - MPrev)/MPrev);
+      }
+      
+      // cout << "err: " << err << endl;
+      
+      if (err > eps) {
+        // cout << "FBA must be call" << endl;
+        FBAmarking = 1;
+      }
+      ++p;
+    }
+  }
+  
   cout << "FBAtime: " << FBAtime << endl;
   cout << "glc_e(t = " << time << ") = " << Value[NumPlaces["glc_e"]] << " (mmol)" << endl;
   cout << "lcts_e(t = " << time << ") = " << Value[NumPlaces["lcts_e"]] << " (mmol)" << endl;
   
-  if(FBAtime != time) {
+  if(FBAmarking && FBAtime != time) {
     
     for (map<string, string>::iterator p = FBAreact.begin(); p != FBAreact.end(); ++p) {
       
@@ -269,8 +309,13 @@ double FBA(double *Value,
       
     }
     
+    for(map <string, double>::iterator p = ValuePrev.begin(); p != ValuePrev.end(); ++p) {
+      p -> second = trunc(Value[NumPlaces.find(p -> first) -> second], decimalTrunc );
+    }
+    
     vec_fluxb[0].solve();
     Vars = vec_fluxb[0].getVariables();
+    cout << "FBA call" << endl;
     
     FBAtime = time;
     

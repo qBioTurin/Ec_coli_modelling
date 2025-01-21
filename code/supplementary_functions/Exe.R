@@ -26,7 +26,7 @@ Exe.exp = function(model_cat,
   # Read the CSV file into a data frame
   csv = read.csv(paste0(wd, "/input/csv/CarbonAdmin.csv"), header = F, quote = "")
   # Make changes to the data frame
-  csv[2, ] = paste0("g; M; MatrixGeneration; frame='/home/docker/data/input/csv/carbon_regimes/", s, ".csv';")
+  csv[2, ] = paste0("g; M; MatrixGeneration; frame='/home/docker/data/input/csv/carbon_regimes/", carbon, ".csv';")
   
   csv[1, ] = paste0("i; init; init.gen; iG = ", iG, "; iL = 0;")
   
