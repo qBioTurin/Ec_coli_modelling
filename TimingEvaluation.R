@@ -8,6 +8,31 @@ library(gtable)
 library(stringr)
 library(ggplotify)
 
+changecolorsFacet = function(pt,colors){
+  # Convert the plot to a gtable object
+  g <- ggplotGrob(pt)
+  
+  # Locate the strip grobs for the x-axis (top strips)
+  strip_idx <- c(which(grepl("strip-t", g$layout$name)),which(grepl("strip-r", g$layout$name)))
+  
+  # Customize the strip backgrounds
+  for (i in seq_along(strip_idx)) {
+
+    strip_grob <- g$grobs[[strip_idx[i]]]
+    label_grob <- strip_grob$grobs[[1]]$children[[which(grepl("text", names(strip_grob$grobs[[1]]$children)))]]
+    facet_label <- label_grob$children[[1]]$label
+    
+    # Set the fill color based on the mapping
+    fill_color <- colors[facet_label]
+    
+    # Replace the background rect
+    g$grobs[[strip_idx[i]]]$grobs[[1]]$children[[1]]$gp$fill <- fill_color
+  }
+  
+  return(as.ggplot(g))
+  
+}
+
 ModelAnalysisPlot=function(TracesPath, FluxPath, FluxVec,new_eps_value,tag) {
   
   trace = read.table(TracesPath, header = T)
@@ -99,10 +124,21 @@ model.generation(net_fname = paste0(wd, "/net/", net_fname, ".PNPRO"),
                  fba_fname = paste0(wd, "/input/compiled_models/", fba_fname))
 system(paste0("mv ", net_fname, ".* ./net"))
 
+### Color association ####
+
 epstimes = c("1e-6", "1e-5",  "1e-4","1e-3", "1e-2")
-colors_new_eps_value <- viridisLite::plasma(length(epstimes))
+colors_new_eps_value <- c("#30123BFF", "#BB1656FF", "#5801A4FF" ,"#EDD03AFF" , "#D23105FF")
 names(colors_new_eps_value) <- epstimes
 
+place = c("glc_e","lcts_e")
+colors_place <- c("#862781FF", "#FEB67CFF")
+names(colors_place) <- place
+
+scenarios = c("Constant_feeding","Linear_feeding","Pulsed_feeding_60","Pulsed_feeding_150", "blank"  )
+colors_scenarios <- c("#0B0405FF" , "#3B5698FF", "#359BAAFF", "#49C1ADFF", "#96DDB5FF")
+names(colors_scenarios) <- scenarios
+
+####
 paramsgrid = expand.grid(epstimes, carbon_reg)
 
 MultipleAnalysis = lapply(seq_along(paramsgrid[, 1]),
@@ -206,8 +242,7 @@ plot_varying_eps = ggplot(trajectories ) +
     axis.title = element_text(size = 15, face = "bold"),
     legend.key.size = unit(0.4, "cm"),
     strip.text.x = element_text(size = 10, face = "bold", colour = "white"),
-    strip.text.y = element_text(size = 10, face = "bold", colour = "black"),
-    strip.background.y = element_rect( fill = "white"),
+    strip.text.y = element_text(size = 10, face = "bold", colour = "white"),
     legend.position = "top") +
   labs(x = "Time (h)", y = "Quantity", col = "Threshold") +
   geom_vline(xintercept = 8)
@@ -228,6 +263,7 @@ df_diff <- trajectories %>%
 pt_perc = ggplot(df_diff)+
   geom_bar(aes(x = Time, y = perc_diff, group = tag, fill = Places),
            stat = "identity", position = "dodge")+
+  scale_fill_manual(values = colors_place[unique(trajectories$Places)])+
   facet_grid(tag~new_eps_value,scales = "free")+
   theme_bw()+
   theme(
@@ -237,11 +273,10 @@ pt_perc = ggplot(df_diff)+
     axis.title = element_text(size = 15, face = "bold"),
     legend.key.size = unit(0.4, "cm"),
     strip.text.x = element_text(size = 10, face = "bold", colour = "white"),
-    strip.text.y = element_text(size = 10, face = "bold", colour = "black"),
-    strip.background.y = element_rect( fill = "white"),
-    legend.position = "bottom")+
+    strip.text.y = element_text(size = 10, face = "bold", colour = "white"),
+    legend.position = "none")+
   labs(x = "Time (h)",y = "% difference with 1e-6")
-pt_perc
+pt_perc = changecolorsFacet(pt_perc,c(colors_new_eps_value,colors_scenarios) )
 
 pt = ggplot(trajectories) +
   geom_line(aes(x = Time, y = Marking,  col = new_eps_value ))+
@@ -255,10 +290,10 @@ pt = ggplot(trajectories) +
     axis.title = element_text(size = 15, face = "bold"),
     legend.key.size = unit(0.4, "cm"),
     strip.text.x = element_text(size = 10, face = "bold", colour = "white"),
-    strip.text.y = element_text(size = 10, face = "bold", colour = "black"),
-    strip.background.y = element_rect( fill = "white"),
+    strip.text.y = element_text(size = 10, face = "bold", colour = "white"),
     legend.position = "top")+
   labs(x = "Time (h)",y = "Quantity", col = "Threshold")
+pt = changecolorsFacet(pt,c(colors_place,colors_scenarios) )
 
 Fig2D = (pt|pt_perc) & theme(legend.position = "bottom")
 Fig2D
@@ -286,7 +321,15 @@ p <- ggplot(timing, aes(x = eps, group = ID) ) +
   scale_color_manual(values = c("Number of FBA" = "red","Global Time (s)" = "blue")) +
   theme_minimal() +
   theme(
-    legend.position = "bottom",
+    plot.subtitle = element_text(size = 10, face = "bold", color = "#2a475e"),
+    plot.title.position = "plot", 
+    axis.text = element_text(size = 9, color = "black"),
+    axis.title = element_text(size = 15, face = "bold"),
+    legend.key.size = unit(0.4, "cm"),
+    strip.text.x = element_text(size = 10, face = "bold", colour = "white"),
+    strip.text.y = element_text(size = 10, face = "bold", colour = "black"),
+    strip.background.y = element_rect( fill = "white"),
+    legend.position = "nonw",
     axis.title.y.left = element_text(color = "blue"),  # Secondary axis styling
     axis.text.y.left = element_text(color = "blue"),
     axis.title.y.right = element_text(color = "red"),  # Secondary axis styling
@@ -297,7 +340,10 @@ p <- ggplot(timing, aes(x = eps, group = ID) ) +
   facet_grid(~Scenario)
 
 
-pl = (Fig2D + plot_layout(guides = "collect")) /p + plot_layout(heights = c(1,0.4))
-ggsave(plot = pl, filename = "results/plots/PerformanceEcoli.pdf", width = 19, height = 12)
+pl = (Fig2D + plot_layout(guides = "collect")) /p + plot_layout(heights = c(1,0.4)) + plot_annotation(tag_levels = 'A')
+
+pl
+
+ggsave(plot = pl, filename = "results/plots/PerformanceEcoli.pdf", width = 21, height = 12)
 
 saveRDS(pl,file = "results/plots/PerformanceEcoli.RDs")
